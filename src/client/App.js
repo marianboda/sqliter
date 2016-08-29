@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 
 const mapStateToProps = (state) => {
   return {
@@ -8,20 +9,44 @@ const mapStateToProps = (state) => {
   }
 }
 
+const topContainerStyle = {
+  display: 'flex',
+  flexDirection: 'column'
+}
+
+const appContainerStyle = {
+  display: 'flex',
+}
+
+const leftPanelStyle = {
+  width: 200,
+  flex: '0 1 200px'
+}
+
+const rightPanelStyle = {
+  width: 200,
+  flex: '1 1 200px'
+}
+
 class App extends React.Component {
   render() {
     const { tables } = this.props
-    return (<div>
+    return (<div style={topContainerStyle}>
       <h1>SqLiter</h1>
-      <div>
-        { tables.map(i => (
-          [
-            <h3 key={i.name}>{i.name}</h3>,
-            <ul>
-              { i.fields.map(j => <li>{j}</li>)}
-            </ul>
-          ]
-        ))}
+      <div style={appContainerStyle}>
+        <div style={leftPanelStyle}>
+          { tables.map(i => (
+            [
+              <h3 key={i.name}><Link to={`/table/${i.name}`}>{i.name}</Link></h3>,
+              <ul>
+                { i.fields.map(j => <li>{j}</li>)}
+              </ul>
+            ]
+          ))}
+        </div>
+        <div style={rightPanelStyle}>
+          { this.props.children }
+        </div>
       </div>
     </div>)
   }
