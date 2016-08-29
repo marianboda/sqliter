@@ -3,7 +3,9 @@ import db from './SqliteService'
 
 const app = express()
 
-app.get('/tables', (req, res) => {
+app.use(express.static('static'))
+
+app.get('/api/tables', (req, res) => {
   db.getTables()
     .then((tables) => res.status(200).send(JSON.stringify(tables)))
 })
