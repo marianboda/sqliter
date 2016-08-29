@@ -39,7 +39,7 @@ class App extends React.Component {
             [
               <h3 key={i.name}><Link to={`/table/${i.name}`}>{i.name}</Link></h3>,
               <ul>
-                { i.fields.map(j => <li>{j}</li>)}
+                { i.fields.map(j => <li key={j}>{j}</li>)}
               </ul>
             ]
           ))}

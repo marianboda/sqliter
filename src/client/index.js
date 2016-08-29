@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { Router, Route, Link, browserHistory } from 'react-router'
 
 import App from './App'
+import TableView from './TableView'
 
 const initialState = {
   tables: []
@@ -25,10 +26,7 @@ fetch('/api/tables').then(r => {
   store.dispatch({type: 'UPDATE_TABLES', payload: body})
 })
 
-const TableView = (props) => {
-  const { tableName } = props.params
-  return <div>{tableName}</div>
-}
+
 
 ReactDOM.render(
   <Provider store={store}>
