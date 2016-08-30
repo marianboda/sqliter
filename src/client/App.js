@@ -35,14 +35,12 @@ class App extends React.Component {
       <h1>SqLiter</h1>
       <div style={appContainerStyle}>
         <div style={leftPanelStyle}>
+          <ul>
           { tables.map(i => (
-            [
-              <h3 key={i.name}><Link to={`/table/${i.name}`}>{i.name}</Link></h3>,
-              <ul>
-                { i.fields.map(j => <li key={j}>{j}</li>)}
-              </ul>
-            ]
+
+            <li key={i.name}><Link to={`/table/${i.name}`}>{i.name}</Link></li>
           ))}
+          </ul>
         </div>
         <div style={rightPanelStyle}>
           { this.props.children }

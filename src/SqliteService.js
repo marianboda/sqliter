@@ -15,7 +15,9 @@ const SQLService = {
     })
     )
   },
-
+  getRecords: (table) => {
+    return all(`SELECT * FROM ${table} LIMIT 10`)
+  }
 }
 
 export default SQLService

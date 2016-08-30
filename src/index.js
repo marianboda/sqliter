@@ -11,6 +11,12 @@ app.get('/api/tables', (req, res) => {
     .then((tables) => res.status(200).send(JSON.stringify(tables)))
 })
 
+app.get('/api/records', (req, res) => {
+  db.getRecords('ad')
+    .then((tables) => res.status(200).send(JSON.stringify(tables)))
+})
+
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'static', 'index.html'))
 })
