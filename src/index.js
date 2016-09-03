@@ -11,8 +11,8 @@ app.get('/api/tables', (req, res) => {
     .then((tables) => res.status(200).send(JSON.stringify(tables)))
 })
 
-app.get('/api/records', (req, res) => {
-  db.getRecords('ad')
+app.get('/api/records/:table', (req, res) => {
+  db.getRecords(req.params['table'])
     .then((tables) => res.status(200).send(JSON.stringify(tables)))
 })
 

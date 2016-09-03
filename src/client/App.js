@@ -5,7 +5,8 @@ import { Link } from 'react-router'
 
 const mapStateToProps = (state) => {
   return {
-    tables: state.tables
+    tables: state.tables,
+    records: state.records
   }
 }
 
@@ -29,6 +30,7 @@ const rightPanelStyle = {
 }
 
 class App extends React.Component {
+
   render() {
     const { tables } = this.props
     return (<div style={topContainerStyle}>
@@ -37,7 +39,6 @@ class App extends React.Component {
         <div style={leftPanelStyle}>
           <ul>
           { tables.map(i => (
-
             <li key={i.name}><Link to={`/table/${i.name}`}>{i.name}</Link></li>
           ))}
           </ul>
