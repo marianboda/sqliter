@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { Router, Route, Link, browserHistory } from 'react-router'
 
 import App from './App'
-import TableView from './TableView'
+import RecordListScreen from './RecordListScreen'
 import reducer from './reducers'
 
 import { fetchRecords } from './actions'
@@ -17,14 +17,13 @@ fetch('/api/tables').then(r => {
   return r.json()
 }).then(body => {
   store.dispatch({type: 'UPDATE_TABLES', payload: body})
-  store.dispatch(fetchRecords('ad'))
 })
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={App} >
-        <Route path="/table/:tableName" component={TableView} />
+        <Route path="/table/:tableName" component={RecordListScreen} />
       </Route>
     </Router>
   </Provider>,
