@@ -14,7 +14,10 @@ const mapStateToProps = (state) => {
 
 class App extends React.Component {
   render() {
+    const { tableName } = this.props.params
+
     const { tables } = this.props
+
     return (<div className="topContainer">
       <div className="appHeader">
         <h1>SqLiter</h1>
@@ -23,7 +26,11 @@ class App extends React.Component {
         <div className="leftPanel" >
           <ul>
           { tables.map(i => (
-            <li key={i.name}><Link to={`/table/${i.name}`}>{i.name}</Link></li>
+            <li key={i.name}>
+              <Link to={`/table/${i.name}`} style={(i.name == tableName) ? {fontWeight: 'bold'} : {}}>
+                {i.name}
+              </Link>
+            </li>
           ))}
           </ul>
         </div>

@@ -37,10 +37,11 @@ class RecordListScreen extends React.Component {
     const fields = ['rowid', ...table.fields]
     const records = this.props.records[tableName] ? this.props.records[tableName] : []
     const loaded = typeof this.props.records[tableName] !== 'undefined'
+    const countStr = loaded ? records.length : '-'
 
     return (
       <div>
-        <h2>{tableName}</h2>
+        <h2>{tableName} [{countStr}]</h2>
         {
           (loaded)
             ? <TableView fields={fields} records={records} />

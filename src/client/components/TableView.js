@@ -1,4 +1,7 @@
 import React from 'react'
+import { take } from 'lodash'
+
+const visibleCount = 50
 
 const TableView = ({ records, fields }) => {
 
@@ -13,7 +16,7 @@ const TableView = ({ records, fields }) => {
         </tr>
       </thead>
       <tbody>
-          { records.map(i => (
+          { take(records, visibleCount).map(i => (
             <tr>
               { fields.map(v => <td>{i[v]}</td>) }
             </tr>

@@ -16,7 +16,7 @@ const SQLService = {
     )
   },
   getRecords: (table) => {
-    return all(`SELECT *, rowid FROM ${table} LIMIT 10`)
+    return all(`SELECT *, rowid FROM ${table} LIMIT 10000`)
   }
 }
 
