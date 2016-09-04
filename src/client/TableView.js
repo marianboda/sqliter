@@ -22,7 +22,7 @@ const TableView = (props) => {
       <table>
         <thead>
           <tr>
-            { fields.map(i => <td key={i}>{i}</td>) }
+            { fields.map(i => <th key={i}>{i}</th>) }
           </tr>
         </thead>
         <tbody>
