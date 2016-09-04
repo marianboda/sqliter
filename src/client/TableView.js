@@ -13,7 +13,7 @@ const TableView = (props) => {
   if (!table)
     return <div>Table {tableName} doesnt exist</div>
 
-  const fields = table.fields
+  const fields = ['rowid', ...table.fields]
   const records = props.records ? props.records : []
 
   return (
