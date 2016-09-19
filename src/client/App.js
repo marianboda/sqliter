@@ -1,7 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, Match } from 'react-router'
+
+import RecordListScreen from './RecordListScreen'
 
 import './styles/styles.sass'
 
@@ -14,7 +16,8 @@ const mapStateToProps = (state) => {
 
 class App extends React.Component {
   render() {
-    const { tableName } = this.props.params
+    console.log(this.props)
+    const tableName = ''
 
     const { tables } = this.props
 
@@ -35,7 +38,7 @@ class App extends React.Component {
           </ul>
         </div>
         <div className="contentContainer">
-          { this.props.children }
+          <Match pattern="/table/:tableName" component={RecordListScreen} />
         </div>
       </div>
     </div>)
