@@ -7,7 +7,6 @@ const TableView = ({ records, fields }) => {
 
   if (records.length == 0)
     return <div>No records</div>
-
   return (
     <table>
       <thead>
@@ -17,8 +16,8 @@ const TableView = ({ records, fields }) => {
       </thead>
       <tbody>
           { take(records, visibleCount).map(i => (
-            <tr>
-              { fields.map(v => <td>{i[v]}</td>) }
+            <tr key={i.rowid}>
+              { fields.map(v => <td key={v}>{i[v]}</td>) }
             </tr>
           )) }
       </tbody>
