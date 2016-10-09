@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Link, Match } from 'react-router'
 
 import RecordListScreen from './RecordListScreen'
+import RecordDetailScreen from './RecordDetailScreen'
 
 import './styles/styles.sass'
 
@@ -16,9 +17,7 @@ const mapStateToProps = (state) => {
 
 class App extends React.Component {
   render() {
-    console.log(this.props)
     const tableName = ''
-
     const { tables } = this.props
 
     return (<div className="topContainer">
@@ -38,7 +37,8 @@ class App extends React.Component {
           </ul>
         </div>
         <div className="contentContainer">
-          <Match pattern="/table/:tableName" component={RecordListScreen} />
+          <Match pattern="/table/:tableName" exactly component={RecordListScreen} />
+          <Match pattern="/table/:tableName/:recordId" exactly component={RecordDetailScreen} />
         </div>
       </div>
     </div>)

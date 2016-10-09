@@ -3,7 +3,11 @@ import { take } from 'lodash'
 
 const visibleCount = 50
 
-const TableView = ({ records, fields }) => {
+const TableView = ({ records, fields, onItemClick }) => {
+
+  const getOnClick = (id) => {
+    return () => onItemClick(id)
+  }
 
   if (records.length == 0)
     return <div>No records</div>
@@ -16,7 +20,7 @@ const TableView = ({ records, fields }) => {
       </thead>
       <tbody>
           { take(records, visibleCount).map(i => (
-            <tr key={i.rowid}>
+            <tr key={i.rowid} onClick={getOnClick(i.rowid)}>
               { fields.map(v => <td key={v}>{i[v]}</td>) }
             </tr>
           )) }
