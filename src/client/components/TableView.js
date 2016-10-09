@@ -11,17 +11,19 @@ const TableView = ({ records, fields, onItemClick }) => {
 
   if (records.length == 0)
     return <div>No records</div>
+
+  const visibleFields = take(fields, 20)
   return (
     <table>
       <thead>
         <tr>
-          { fields.map(i => <th key={i}>{i}</th>) }
+          { visibleFields.map(i => <th key={i}>{i}</th>) }
         </tr>
       </thead>
       <tbody>
           { take(records, visibleCount).map(i => (
             <tr key={i.rowid} onClick={getOnClick(i.rowid)}>
-              { fields.map(v => <td key={v}>{i[v]}</td>) }
+              { visibleFields.map(v => <td key={v}>{i[v]}</td>) }
             </tr>
           )) }
       </tbody>

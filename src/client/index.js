@@ -6,7 +6,6 @@ import { Provider } from 'react-redux'
 import { BrowserRouter, Match, Link } from 'react-router'
 
 import App from './App'
-import RecordListScreen from './RecordListScreen'
 import reducer from './reducers'
 
 import { fetchRecords } from './actions'

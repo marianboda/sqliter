@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 
 import { fetchRecords } from './actions'
 import TableView from './components/TableView'
+import RecordDetail from './components/RecordDetail'
 
 const mapStateToProps = (state) => ({
   tables: state.tables,
-  records: state.records
+  records: state.records,
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -22,28 +23,37 @@ const mapDispatchToProps = (dispatch) => ({
   }
 })
 
-class RecordListScreen extends React.Component {
+class DataScreen extends React.Component {
 
   onItemClick(id) {
-    this.context.router.transitionTo(`${this.props.pathname}/${id}`)
+    this.context.router.transitionTo(`/table/${this.props.params.tableName}/${id}`)
   }
-
   componentWillUpdate(newProps) {
     this.props.onUpdate(newProps)
   }
+  componentWillMount() {
+    this.props.onUpdate(this.props)
+  }
 
   render() {
-    const { tableName } = this.props.params
+    const { tableName, recordId } = this.props.params
     const table = this.props.tables.filter(i => i.name == tableName)[0]
 
     if (!table)
       return <div>Table {tableName} doesnt exist</div>
 
     const fields = ['rowid', ...table.fields]
-    const records = this.props.records[tableName] ? this.props.records[tableName] : []
 
     const loaded = typeof this.props.records[tableName] !== 'undefined'
+    const records = loaded ? this.props.records[tableName] : []
     const countStr = loaded ? records.length : '-'
+
+    if (typeof recordId !== 'undefined') {
+      const record = records.filter(i => i.rowid == recordId)[0]
+      return (
+        <RecordDetail record={record}/>
+      )
+    }
 
     return (
       <div>
@@ -58,8 +68,8 @@ class RecordListScreen extends React.Component {
   }
 }
 
-RecordListScreen.contextTypes = {
+DataScreen.contextTypes = {
   router: React.PropTypes.object
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecordListScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(DataScreen)

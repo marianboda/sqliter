@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link, Match } from 'react-router'
 
-import RecordListScreen from './RecordListScreen'
-import RecordDetailScreen from './RecordDetailScreen'
+import DataScreen from './DataScreen'
 
 import './styles/styles.sass'
 
@@ -37,8 +36,7 @@ class App extends React.Component {
           </ul>
         </div>
         <div className="contentContainer">
-          <Match pattern="/table/:tableName" exactly component={RecordListScreen} />
-          <Match pattern="/table/:tableName/:recordId" exactly component={RecordDetailScreen} />
+          <Match pattern="/table/:tableName/:recordId?" exactly component={DataScreen} />
         </div>
       </div>
     </div>)
