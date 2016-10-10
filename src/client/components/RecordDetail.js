@@ -8,10 +8,8 @@ class RecordDetail extends React.Component {
       return <div>--</div>
 
     const fields = Object.keys(record)
-    console.log(this.props)
     return (
       <div>
-        Tabulka #{record.rowid}
         <table>
           <tbody>
             { fields.map(i => {
