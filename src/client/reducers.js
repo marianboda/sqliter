@@ -1,16 +1,20 @@
 const initialState = {
   tables: [],
-  records: [],
+  dataset: {
+    tableName: null,
+    offset: 0,
+    count: 10,
+    records: null,
+  },
 }
 
 function reducer(state = initialState, action) {
   switch (action.type) {
     case 'UPDATE_TABLES': return {...state, tables: action.payload}
-    case 'UPDATE_RECORDS':
-      return {...state, records:
-        {[action.payload.tableName]: action.payload.records, ...state.records}
+    case 'UPDATE_DATASET':
+      console.log('UPDATING REDUCER', {...action.payload})
+      return {...state, dataset: {...action.payload}}
     }
-  }
   return state
 }
 

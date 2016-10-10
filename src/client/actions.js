@@ -1,10 +1,20 @@
 import fetch from 'isomorphic-fetch'
 
-const updateRecords = payload => ({ type: 'UPDATE_RECORDS', payload })
 
-export const fetchRecords = (tableName) => {
-  console.log(`fetching records for ${tableName}`)
-  return (dispatch) => fetch(`/api/records/${tableName}`)
-    .then(r => r.json())
-    .then(records => dispatch(updateRecords({tableName, records})))
+const updateDataset = payload => ({ type: 'UPDATE_DATASET', payload })
+
+export const fetchRecords = (dataset) => {
+  console.log(`fetching records for ${dataset.tableName}`)
+  const { tableName } = dataset
+  const offset = 0
+  const count = 30
+
+  return (dispatch) => {
+    const url = `/api/records/${tableName}?offset=${offset}&count=${30}`
+    const promise = fetch(url)
+      .then(r => r.json())
+      .then(records => dispatch(updateDataset({tableName, offset, count, records})))
+    dispatch(updateDataset({tableName, offset, count, records: promise}))
+    return promise
+  }
 }

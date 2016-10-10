@@ -9,17 +9,20 @@ import RecordDetail from './components/RecordDetail'
 
 const mapStateToProps = (state) => ({
   tables: state.tables,
-  records: state.records,
+  dataset: state.dataset,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   onUpdate: (newProps) => {
     const { tableName } = newProps.params
+    const newTableName = newProps.dataset.tableName
+    console.log('update', tableName, newTableName, {...newProps})
     if (tableName) {
-      const records = newProps.records[tableName]
-      if (!records) {
+      const dataset = newProps.dataset
+      const records = dataset.records
+      if (!records || tableName != newTableName) {
         console.log(`will fetch ${tableName}`)
-        dispatch(fetchRecords(tableName))
+        dispatch(fetchRecords({tableName}))
       }
     }
   }
@@ -41,15 +44,16 @@ class DataScreen extends React.Component {
   render() {
     const { tableName, recordId } = this.props.params
     const table = this.props.tables.filter(i => i.name == tableName)[0]
-    const { query } = this.props.location
+    const query = this.props.location.query
+    const dataset = this.props.dataset
 
     if (!table)
       return <div>Table {tableName} doesnt exist</div>
 
     const fields = ['rowid', ...table.fields]
 
-    const loaded = typeof this.props.records[tableName] !== 'undefined'
-    const records = loaded ? this.props.records[tableName] : []
+    const loaded = typeof dataset.records !== 'undefined'
+    const records = loaded ? dataset.records : []
     const countStr = loaded ? records.length : '-'
 
     if (typeof recordId !== 'undefined') {
@@ -63,7 +67,7 @@ class DataScreen extends React.Component {
     const offset = (query && typeof query.offset !== 'undefined') ? +query.offset : 0
     const pagesCount = Math.ceil(records.length / visibleCount)
 
-    const visibleRecords = records.slice(offset, offset + visibleCount)
+    const visibleRecords = (records.then) ? [] : records.slice(offset, offset + visibleCount)
 
     const getPageLink = (offset) => {
       const oldLoc = this.props.location

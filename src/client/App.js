@@ -10,7 +10,7 @@ import './styles/styles.sass'
 const mapStateToProps = (state) => {
   return {
     tables: state.tables,
-    records: state.records
+    dataset: state.dataset
   }
 }
 
