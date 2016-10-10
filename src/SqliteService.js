@@ -15,8 +15,12 @@ const SQLService = {
     })
     )
   },
-  getRecords: (table) => {
-    return all(`SELECT *, rowid FROM ${table} LIMIT 10000`)
+  getRecords: (table, query) => {
+    const limit = (query.count) ? +query.count : 10000
+    const offset = (query.offset) ? +query.offset : 0
+    const order = 'rowid'
+
+    return all(`SELECT rowid, * FROM ${table} ORDER BY ${order} LIMIT ${limit} OFFSET ${offset}`)
   }
 }
 

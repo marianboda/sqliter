@@ -12,7 +12,7 @@ app.get('/api/tables', (req, res) => {
 })
 
 app.get('/api/records/:table', (req, res) => {
-  db.getRecords(req.params['table'])
+  db.getRecords(req.params['table'], req.query)
     .then((tables) => res.status(200).send(JSON.stringify(tables)))
 })
 
