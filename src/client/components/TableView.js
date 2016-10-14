@@ -1,5 +1,5 @@
 import React from 'react'
-import { range } from 'lodash'
+import { range, get } from 'lodash'
 
 const TableView = (props) => {
   const { records, fields, onItemClick } = props
@@ -21,13 +21,21 @@ const TableView = (props) => {
       <table>
         <thead>
           <tr>
-            { visibleFields.map(i => <th key={i}>{i}</th>) }
+            { visibleFields.map(i => {
+                const val = get(i, 'title', i.field)
+                return <th key={val}>{val}</th>
+              })
+            }
           </tr>
         </thead>
         <tbody>
             { records.map(i => (
               <tr key={i.rowid} onClick={getOnClick(i.rowid)}>
-                { visibleFields.map(v => <td key={v}>{i[v]}</td>) }
+                { visibleFields.map(v => {
+                    const val = (v.renderer) ? v.renderer(i[v.field]) : i[v.field]
+                    return <td key={get(v, 'title', v.field)}>{val}</td>
+                  })
+                }
               </tr>
             )) }
         </tbody>

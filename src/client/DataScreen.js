@@ -58,7 +58,18 @@ class DataScreen extends React.Component {
       return <RecordDetail record={record}/>
     }
 
-    const fields = ['rowid', ...table.fields]
+    const fields = [
+      {
+        field: 'rowid',
+        renderer: (v) => <div style={{color: '#AAA', textAlign: 'right', width: '100%'}}>{v}</div>
+      },
+      {
+        field: 'link',
+        title: 'clickable',
+        renderer: (v) => <a href={v} target="_blank" onClick={e => e.stopPropagation()}>[ LINK ]</a>
+      },
+      ...table.fields.map(v => ({field: v}))]
+
     const totalCount = table.rowCount
     const pagesCount = Math.ceil(totalCount / count)
 
