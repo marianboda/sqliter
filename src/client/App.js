@@ -29,7 +29,7 @@ class App extends React.Component {
           { tables.map(i => (
             <li key={i.name}>
               <Link to={`/table/${i.name}`} style={(i.name == tableName) ? {fontWeight: 'bold'} : {}}>
-                {i.name}
+                {i.name} [{i.rowCount}]
               </Link>
             </li>
           ))}
