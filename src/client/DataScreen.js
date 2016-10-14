@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { range } from 'lodash'
+import { range, get, isEqual } from 'lodash'
 import { Link } from 'react-router'
 
 import { fetchRecords } from './actions'
@@ -15,15 +15,18 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onUpdate: (newProps) => {
     const { tableName } = newProps.params
-    const newTableName = newProps.dataset.tableName
-    console.log('update', tableName, newTableName, {...newProps})
-    if (tableName) {
-      const dataset = newProps.dataset
-      const records = dataset.records
-      if (!records || tableName != newTableName) {
-        console.log(`will fetch ${tableName}`)
-        dispatch(fetchRecords({tableName}))
-      }
+    const offset = get(newProps.location.query, 'offset', 0)
+    const oldDataset = newProps.dataset
+    const newDataset = { tableName, offset }
+
+    const datasetChanged =
+      oldDataset.tableName != newDataset.tableName
+      || oldDataset.offset != newDataset.offset
+
+    // console.log('update', tableName, newDataset.tableName, {...newProps})
+    if (!oldDataset.records || datasetChanged) {
+      console.log(`will fetch ${tableName}, offset: ${offset}`)
+      dispatch(fetchRecords({tableName, offset}))
     }
   }
 })
@@ -42,56 +45,38 @@ class DataScreen extends React.Component {
   }
 
   render() {
-    const { tableName, recordId } = this.props.params
-    const table = this.props.tables.filter(i => i.name == tableName)[0]
-    const query = this.props.location.query
     const dataset = this.props.dataset
-
+    const { tableName, count, offset } = dataset
+    const table = this.props.tables.filter(i => i.name == tableName)[0]
     if (!table)
       return <div>Table {tableName} doesnt exist</div>
 
-    const fields = ['rowid', ...table.fields]
-
-    const loaded = typeof dataset.records !== 'undefined'
-    const records = loaded ? dataset.records : []
-    const countStr = loaded ? records.length : '-'
-
+    const records = get(dataset, 'records', [])
+    const { recordId } = this.props.params
     if (typeof recordId !== 'undefined') {
       const record = records.filter(i => i.rowid == recordId)[0]
-      return (
-        <RecordDetail record={record}/>
-      )
+      return <RecordDetail record={record}/>
     }
 
-    const visibleCount = 30
-    const offset = (query && typeof query.offset !== 'undefined') ? +query.offset : 0
-    const pagesCount = Math.ceil(records.length / visibleCount)
-
-    const visibleRecords = (records.then) ? [] : records.slice(offset, offset + visibleCount)
+    const fields = ['rowid', ...table.fields]
+    const totalCount = table.rowCount
+    const pagesCount = Math.ceil(totalCount / count)
 
     const getPageLink = (offset) => {
       const oldLoc = this.props.location
       return {pathname: oldLoc.pathname, query: {...oldLoc.query, offset}}
     }
 
-    const content = (loaded)
-      ? (
-        <div>
-          <div className="pagination">
-            { range(1, pagesCount + 1).map(i => <Link key={i} to={getPageLink((i-1)*visibleCount)}>{i}</Link>)}
-          </div>
-          <TableView fields={fields} records={visibleRecords} onItemClick={this.onItemClick.bind(this)}
-            location={location}/>
-        </div>
-      )
-      : (
-        <div>loading ...</div>
-      )
-
     return (
       <div>
-        <h2>{tableName} [{countStr}]</h2>
-        {content}
+        <h2>{tableName} [{totalCount}]</h2>
+        <div>
+          <div className="pagination">
+            { range(1, pagesCount + 1).map(i => <Link key={i} to={getPageLink((i-1)*count)}>{i}</Link>)}
+          </div>
+          <TableView fields={fields} records={records} onItemClick={this.onItemClick.bind(this)}
+            location={location}/>
+        </div>
       </div>
     )
   }

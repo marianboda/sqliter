@@ -11,7 +11,10 @@ const TableView = (props) => {
   if (records.length == 0)
     return <div>No records</div>
 
-  const visibleFields = fields.slice(0, 20)
+  if (typeof records.then === 'function')
+    return <div>Loading...</div>
+
+  const visibleFields = fields.slice(0, 10)
 
   return (
     <div className="tableView">

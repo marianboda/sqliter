@@ -5,8 +5,7 @@ const updateDataset = payload => ({ type: 'UPDATE_DATASET', payload })
 
 export const fetchRecords = (dataset) => {
   console.log(`fetching records for ${dataset.tableName}`)
-  const { tableName } = dataset
-  const offset = 0
+  const { tableName, offset } = dataset
   const count = 30
 
   return (dispatch) => {
