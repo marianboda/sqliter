@@ -30,7 +30,7 @@ const TableView = (props) => {
         </thead>
         <tbody>
             { records.map(i => (
-              <tr key={i.rowid} onClick={getOnClick(i.rowid)}>
+              <tr key={i[props.pk]} onClick={getOnClick(i[props.pk])}>
                 { visibleFields.map(v => {
                     const val = (v.renderer) ? v.renderer(i[v.field]) : i[v.field]
                     return <td key={get(v, 'title', v.field)}>{val}</td>

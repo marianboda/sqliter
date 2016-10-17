@@ -16,6 +16,7 @@ const SQLService = {
             name: t.name,
             rowCount,
             fields: fields.map(i => i.name),
+            pk: fields.filter(i => i.pk == 1).map(i => i.name)
           }
         })
     }))

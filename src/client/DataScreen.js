@@ -51,10 +51,11 @@ class DataScreen extends React.Component {
     if (!table)
       return <div>Table {tableName} doesnt exist</div>
 
+    const pk = (table.pk.length > 0) ? table.pk[0] : 'rowid'
     const records = get(dataset, 'records', [])
     const { recordId } = this.props.params
     if (typeof recordId !== 'undefined') {
-      const record = records.filter(i => i.rowid == recordId)[0]
+      const record = records.filter(i => i[pk] == recordId)[0]
       return <RecordDetail record={record}/>
     }
 
@@ -85,7 +86,7 @@ class DataScreen extends React.Component {
           <div className="pagination">
             { range(1, pagesCount + 1).map(i => <Link key={i} to={getPageLink((i-1)*count)}>{i}</Link>)}
           </div>
-          <TableView fields={fields} records={records} onItemClick={this.onItemClick.bind(this)}
+          <TableView fields={fields} records={records} pk={pk} onItemClick={this.onItemClick.bind(this)}
             location={location}/>
         </div>
       </div>
