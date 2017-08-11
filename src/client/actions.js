@@ -1,6 +1,5 @@
 import fetch from 'isomorphic-fetch'
 
-
 const updateDataset = payload => ({ type: 'UPDATE_DATASET', payload })
 
 export const fetchRecords = (dataset) => {

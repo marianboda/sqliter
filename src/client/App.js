@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { Link, Match } from 'react-router'
+import { Link, Route } from 'react-router-dom'
 
 import DataScreen from './DataScreen'
 
@@ -36,7 +36,7 @@ class App extends React.Component {
           </ul>
         </div>
         <div className="contentContainer">
-          <Match pattern="/table/:tableName/:recordId?" exactly component={DataScreen} />
+          <Route path="/table/:tableName/:recordId?" exactly component={DataScreen} />
         </div>
       </div>
     </div>)

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { BrowserRouter, Match, Link } from 'react-router'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 
 import App from './App'
 import reducer from './reducers'
@@ -21,7 +21,7 @@ fetch('/api/tables').then(r => {
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <Match pattern="/" component={App} />
+      <Route path="/" component={App} />
     </BrowserRouter>
   </Provider>,
   document.getElementById('appContainer')

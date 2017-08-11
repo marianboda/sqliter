@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { range, get, isEqual } from 'lodash'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { fetchRecords } from './actions'
 import TableView from './components/TableView'
@@ -14,7 +14,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onUpdate: (newProps) => {
-    const { tableName } = newProps.params
+    const { tableName } = newProps.match.params
     const offset = get(newProps.location.query, 'offset', 0)
     const oldDataset = newProps.dataset
     const newDataset = { tableName, offset }
@@ -35,7 +35,7 @@ class DataScreen extends React.Component {
   onItemClick(id) {
     const oldLoc = this.props.location
     const newLoc = {pathname: oldLoc.pathname + '/' + id, query: {...oldLoc.query}}
-    this.context.router.transitionTo(newLoc)
+    this.props.history.push(newLoc)
   }
   componentWillUpdate(newProps) {
     this.props.onUpdate(newProps)
@@ -53,7 +53,7 @@ class DataScreen extends React.Component {
 
     const pk = (table.pk.length > 0) ? table.pk[0] : 'rowid'
     const records = get(dataset, 'records', [])
-    const { recordId } = this.props.params
+    const { recordId } = this.props.match.params
     if (typeof recordId !== 'undefined') {
       const record = records.filter(i => i[pk] == recordId)[0]
       return <RecordDetail record={record}/>
